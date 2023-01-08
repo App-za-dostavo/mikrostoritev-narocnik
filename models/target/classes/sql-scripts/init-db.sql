@@ -1,1 +1,0 @@
-INSERT INTO narocnik (firstName, lastName, vip, location) VALUES ('Janez', 'Novak', true, 10.0);
