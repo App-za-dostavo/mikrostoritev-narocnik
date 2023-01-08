@@ -1,0 +1,15 @@
+kumuluzee:
+  name: narocnik-service
+  version: 1.0.0
+  env:
+    name: dev
+  server:
+    base-url: http://localhost:8080
+    http:
+      port: 8080
+  datasources:
+    - jndi-name: jdbc/narocnikDS
+      connection-url: jdbc:postgresql://narocnikservice:5432/narocnik
+      username: postgres
+      password: postgres
+      max-pool-size: 20

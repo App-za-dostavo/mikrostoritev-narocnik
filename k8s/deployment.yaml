@@ -1,0 +1,46 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: narocnik-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: narocnik
+  template:
+    metadata:
+      labels:
+        app: narocnik
+    spec:
+      containers:
+        - image: veronikasovdat/narocnik
+          name: narocnik
+          env:
+            - name: KUMULUZEE_DATASOURCES0_CONNECTIONURL
+              value: jdbc:postgresql://hansken.db.elephantsql.com:5432/ictvwncx
+            - name: KUMULUZEE_DATASOURCES0_USERNAME
+              value: ictvwncx
+            - name: KUMULUZEE_DATASOURCES0_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: db-password
+                  key: KUMULUZEE_DATASOURCES0_PASSWORD
+          ports:
+            - containerPort: 8080
+              name: server
+              protocol: TCP
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: narocnik
+spec:
+  type: LoadBalancer
+  ports:
+    - port: 8080
+      protocol: TCP
+      targetPort: server
+  selector:
+    app: narocnik
